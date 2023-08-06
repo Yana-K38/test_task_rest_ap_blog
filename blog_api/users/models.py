@@ -1,16 +1,21 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.db import models
+
+User = get_user_model()
 
 
 class Blog(models.Model):
     """Модель для создания блога."""
-    owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name='blog')
-    name = models.CharField(max_length=100)
+    author = models.OneToOneField(User, on_delete=models.CASCADE, related_name='blog')
+    name = models.CharField('Название блога', max_length=100)
+    
+    def __str__(self):
+        return self.name
         
 
 class Follow(models.Model):
     """Модель для подписок на автора."""
-    author = models.ForeignKey(
+    blog = models.ForeignKey(
         Blog, on_delete=models.CASCADE, related_name='following')
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='follower')
@@ -21,10 +26,10 @@ class Follow(models.Model):
         verbose_name_plural = 'Subscriptions'
         constraints = [
             models.UniqueConstraint(
-                fields=['user', 'author'],
+                fields=['user', 'blog'],
                 name='unique_name_follow'
             )
         ]
 
     def __str__(self):
-        return f'{self.user} подписана на {self.author}'
+        return f'{self.user} подписана на {self.blog}'
