@@ -29,8 +29,7 @@ SECRET_KEY = '0nt7&l(i2s(--##vv*5!d08cf0f@#ymgh@jmb4usf!x*#!_giq'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
-
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -56,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'blog_api.urls'
 
