@@ -50,3 +50,5 @@ class PostSerializer(serializers.ModelSerializer):
         fields = '__all__'
         model = Post
 
+class SendDailyNewsFeedSerializer(serializers.Serializer):
+    pass
