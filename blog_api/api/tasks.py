@@ -17,6 +17,7 @@ def send_daily_news_feed():
         for post in queryset:
             print(f"- {post.title}")
         print("Подборка постов успешно выведена в консоль!")
+
         # message = "Последние пять постов из ленты:\n\n"
         # for post in queryset:
         #     message += f"- {post.title}\n"

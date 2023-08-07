@@ -7,4 +7,4 @@ from django.contrib.auth.models import User
 @receiver(post_save, sender=User)
 def create_personal_blog(sender, instance, created, **kwargs):
     if created:
-        Blog.objects.create(owner=instance, name=f"{instance.username} создатель блога")
+        Blog.objects.create(author=instance, name=f"{instance.username} создатель блога")

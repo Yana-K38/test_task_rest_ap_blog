@@ -16,6 +16,8 @@ from rest_framework.decorators import api_view
 from .tasks import send_daily_news_feed
 from .serializers import SendDailyNewsFeedSerializer
 from django_redis import get_redis_connection
+from itertools import chain
+
 
 
 User = get_user_model()
@@ -80,7 +82,7 @@ class PublicationsViewSet(viewsets.ModelViewSet):
     pagination_class = CustomPageNumberPagination
     permission_classes = [IsAuthenticated]
     http_method_names = ['get',]
-
+    
     def get_queryset(self):
         user = self.request.user
         subscribed_blogs = Follow.objects.filter(user=user).values_list('blog', flat=True)
@@ -93,9 +95,26 @@ class PublicationsViewSet(viewsets.ModelViewSet):
         all_posts = Post.objects.filter(blog__in=subscribed_blogs).order_by('-created_at')
         all_posts_ids = set(all_posts.values_list('id', flat=True))
         new_posts = all_posts.filter(id__in=all_posts_ids - current_posts_ids)
-        deleted_posts = queryset.filter(id__in=current_posts_ids - all_posts_ids)
-        updated_queryset = queryset.union(new_posts).difference(deleted_posts)
+
+        # Объединяем результаты в один список
+        updated_queryset = list(chain(new_posts, queryset))
         return updated_queryset
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     subscribed_blogs = Follow.objects.filter(user=user).values_list('blog', flat=True)
+    #     queryset = Post.objects.filter(blog__in=subscribed_blogs).order_by('-created_at')
+    #     updated_queryset = self.update_publications(user, subscribed_blogs, queryset)
+    #     return updated_queryset
+    
+    # def update_publications(self, user, subscribed_blogs, queryset):
+    #     current_posts_ids = set(queryset.values_list('id', flat=True))
+    #     all_posts = Post.objects.filter(blog__in=subscribed_blogs).order_by('-created_at')
+    #     all_posts_ids = set(all_posts.values_list('id', flat=True))
+    #     new_posts = all_posts.filter(id__in=all_posts_ids - current_posts_ids)
+    #     updated_queryset = new_posts.union(queryset)
+    #     return updated_queryset
+    
+    
 
 class PostReadStatusUpdateAPIView(viewsets.ModelViewSet):
     serializer_class = BlogSerializer
@@ -130,6 +149,7 @@ def send_daily_news_feed_view(request):
     serializer = SendDailyNewsFeedSerializer(data=request.data)
     if serializer.is_valid():
         send_daily_news_feed.delay()
+        send_daily_news_feed()
         return Response({"message": "Задача для отправки писем с подборкой постов запущена."}, status=200)
     else:
         return Response(serializer.errors, status=400)

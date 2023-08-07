@@ -1,12 +1,12 @@
-FROM python:3.11-slim
+FROM python:3.9
 
-RUN apt-get update && apt-get install -y postgresql-client
+RUN apt-get update && apt-get install -y postgresql-client redis-tools
 
 RUN mkdir /app
 
 COPY requirements.txt /app
 
-RUN pip3 install -r /app/requirements.txt --no-cache-dir
+RUN pip3 install -r /app/requirements.txt
 
 COPY . /app
 
