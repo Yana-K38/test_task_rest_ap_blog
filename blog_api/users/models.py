@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django_redis import get_redis_connection
+from django.core.exceptions import ValidationError
 
 User = get_user_model()
 redis_connection = get_redis_connection()
@@ -22,7 +23,7 @@ class Blog(models.Model):
         return redis_connection.sismember(f'blog:{self.id}:read_posts', post_id)
 
 class Follow(models.Model):
-    """Модель для подписок на автора."""
+    """Модель для подписок на блог."""
     blog = models.ForeignKey(
         Blog, on_delete=models.CASCADE, related_name='following')
     user = models.ForeignKey(
@@ -38,6 +39,10 @@ class Follow(models.Model):
                 name='unique_name_follow'
             )
         ]
+    
+    def clean(self):
+        if self.user == self.blog.author:
+            raise ValidationError("Вы не можете подписаться на свой собственный блог.")
 
     def __str__(self):
         return f'{self.user} подписана на {self.blog}'
