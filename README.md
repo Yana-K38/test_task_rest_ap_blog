@@ -58,7 +58,7 @@ docker-compose exec  backend python manage.py migrate --noinput
 docker-compose exec  backend python manage.py collectstatic --no-input
 docker-compose exec backend python manage.py createsuperuser
 ```
-Для заполнения базы данных начальными данными списка ингридиетов выполните:
+Для заполнения базы данных начальными данными модели User и Post выполните:
 ```
 $ docker exec -e DJANGO_SETTINGS_MODULE=blog_api.settings <container backend ID> python custrom_mixer.py
 ```
