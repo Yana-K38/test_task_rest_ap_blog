@@ -61,6 +61,7 @@ docker-compose up -d --build
 docker-compose exec  backend python manage.py makemigrations --noinput
 docker-compose exec  backend python manage.py migrate --noinput
 docker-compose exec  backend python manage.py collectstatic --no-input
+docker cp static/  <ID container>:var/html/    
 docker-compose exec backend python manage.py createsuperuser
 ```
 Для заполнения базы данных начальными данными модели User и Post выполните:
@@ -69,3 +70,4 @@ $ docker exec -e DJANGO_SETTINGS_MODULE=blog_api.settings <container backend ID>
 ```
 ##### После запуска проекта, документация будет доступна по адресу:
 ```http://127.0.0.1/swagger/```
+```http://127.0.0.1/admin/```
