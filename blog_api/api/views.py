@@ -1,17 +1,19 @@
-from rest_framework.response import Response
+from itertools import chain
+
 from api.serializers import BlogSerializer, FollowSerializer, PostSerializer
-from users.models import Blog, Follow
 from blog.models import Post
 from django.contrib.auth import get_user_model
-from .pagination import CustomPageNumberPagination
-from rest_framework.permissions import IsAuthenticated
-from rest_framework import generics, status, viewsets
-
-from rest_framework.decorators import api_view
-from .tasks import send_daily_news_feed
-from .serializers import SendDailyNewsFeedSerializer
 from django_redis import get_redis_connection
-from itertools import chain
+from rest_framework import generics, status, viewsets
+from rest_framework.decorators import api_view
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from users.models import Blog, Follow
+
+from .pagination import CustomPageNumberPagination
+from .serializers import SendDailyNewsFeedSerializer
+from .tasks import send_daily_news_feed
+
 
 User = get_user_model()
 

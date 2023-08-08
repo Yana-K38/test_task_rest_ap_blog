@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+
 from dotenv import load_dotenv
+
 
 load_dotenv()
 
@@ -44,7 +46,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'corsheaders',
-    
+
     # celery
     'django.core.mail',
     'django_celery_beat',
@@ -52,7 +54,7 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
     'api.apps.ApiConfig',
-    ]
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -107,7 +109,6 @@ CORS_ORIGIN_WHITELIST = [
     "http://app",
     "http://185.244.173.82:8000",
 ]
-
 
 
 ROOT_URLCONF = 'blog_api.urls'
@@ -216,5 +217,4 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media') 
-
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

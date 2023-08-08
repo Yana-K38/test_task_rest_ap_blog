@@ -1,8 +1,10 @@
 import datetime
-from django.contrib.auth.models import User
-from blog.models import Post
-from users.models import Follow
+
 from blog_api.celery import app
+
+from blog.models import Post
+from django.contrib.auth.models import User
+from users.models import Follow
 
 
 @app.task

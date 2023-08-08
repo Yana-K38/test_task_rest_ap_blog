@@ -1,11 +1,8 @@
-from django.urls import path, include
+from api.views import (BlogViewSet, FollowViewSet, GetReadPostsAPIView,
+                       PostReadStatusUpdateAPIView, PostViewSet,
+                       PublicationsViewSet, send_daily_news_feed_view)
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter
-from api.views import (BlogViewSet, FollowViewSet,
-                       PostViewSet, PublicationsViewSet,
-                       PostReadStatusUpdateAPIView,
-                       GetReadPostsAPIView,
-                       send_daily_news_feed_view,
-                       )
 
 
 app_name = 'api'

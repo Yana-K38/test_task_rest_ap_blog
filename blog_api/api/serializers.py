@@ -1,7 +1,7 @@
-from rest_framework import serializers
-from users.models import Blog, Follow
 from blog.models import Post
+from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
+from users.models import Blog, Follow
 
 
 class BlogSerializer(serializers.ModelSerializer):
