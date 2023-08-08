@@ -71,13 +71,13 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        return Post.objects.filter(blog__following__user=user)
+        return Post.objects.filter(blog__author=user)
 
     def perform_create(self, serializer):
         serializer.save(blog=self.request.user.blog)
 
 
-class PublicationsViewSet(viewsets.ModelViewSet):
+class PublicationsViewSet(generics.ListAPIView):
     """Лента постов."""
     serializer_class = PostSerializer
     pagination_class = CustomPageNumberPagination
